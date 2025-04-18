@@ -58,6 +58,7 @@ const Head = ({ darkMode }) => {
     const response = await data.json();
     // console.log(response);
     setSuggesstions(response[1]);
+    // setSuggesstions(response?.items);
 
     //update cache
     dispatch(
@@ -72,8 +73,10 @@ const Head = ({ darkMode }) => {
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
+  console.log("suggestions", suggestions);
+  
   return (
-    <div className=" fixed top-0 w-full z-20 grid grid-flow-col p-2  shadow-lg dark:bg-neutral-900">
+    <div className=" fixed top-0 w-full z-20 grid grid-flow-col p-2 bg-white  shadow-lg dark:bg-neutral-900">
       <div className="flex gap-4 items-center ml-3 col-span-1">
         <FaBars
           onClick={() => toggleMenuHandler()}
@@ -118,7 +121,7 @@ const Head = ({ darkMode }) => {
         {showSuggestions && (
           <div className="absolute top-11 bg-white  py-3 w-[50%] rounded-xl shadow-lg z-10 border border-gray-200">
             <ul className="">
-              {suggestions.map((suggestion, index) => (
+              {suggestions?.map((suggestion, index) => (
                 <li
                   key={index}
                   className="hover:bg-gray-100 border-b border-gray-200  px-6 py-1 cursor-pointer flex items-center gap-2"
