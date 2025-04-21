@@ -1,6 +1,6 @@
 import React from "react";
 
-const VideoCard = ({ info }) => {
+const  VideoCard = ({ info }) => {
   console.log(info);
   if(!info) return null
   const { snippet, statistics } = info;
@@ -17,8 +17,8 @@ const VideoCard = ({ info }) => {
   };
   
   return (
-    <div className="p-2 m-2 w-72">
-      <img className="rounded-lg" src={thumbnails?.medium.url} alt="thumbnail" />
+    <div className="p-2 m-2  cursor-pointer">
+      <img className="rounded-lg w-full hover:scale-95 transition-all duration-300 ease-linear" src={thumbnails?.medium.url} alt="thumbnail" />
       <ul>
         <li className="font-bold py-1">{title}</li>
         <li>{channelTitle}</li>
@@ -27,5 +27,12 @@ const VideoCard = ({ info }) => {
     </div>
   );
 };
+  export const AdVideoCard = ({info}) => {
+    return (
+      <div className="border w-[24%] border-red-300">
+        <VideoCard info={info}/>
+      </div>
+    );
+  };
 
 export default VideoCard;

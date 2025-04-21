@@ -4,7 +4,7 @@ import Button from './Button'
 const List = ["All","Gaming","React","Anime","Live","Food","Music","Movies"]
 const ButtonList = () => {
   return (
-    <div className='flex '>
+    <div className='flex mt-2'>
       {/* <Button name="All"/>
       <Button name="Gaming"/>
       <Button name="React"/>
