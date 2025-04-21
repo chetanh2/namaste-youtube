@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const  VideoCard = ({ info }) => {
   console.log(info);
@@ -30,7 +31,9 @@ const  VideoCard = ({ info }) => {
   export const AdVideoCard = ({info}) => {
     return (
       <div className="border w-[24%] border-red-300">
-        <VideoCard info={info}/>
+        {/* <Link className="w-[24%]" to={"/watch?v=" + info.id}> */}
+          <VideoCard info={info}/>
+        {/* </Link> */}
       </div>
     );
   };

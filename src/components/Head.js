@@ -1,24 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constant";
+import { BsClockHistory } from "react-icons/bs";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const dispatch = useDispatch()
+  const [suggestions, setSuggesstions] = useState([]);
+  const [showSuggestions, setShowSuggesstions] = useState(false);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  const searchCache = useSelector((store) => store.search);
+  /*
+    searchCache = {
+      "iphone": ["iphone 11","iphone 14"]
+    }
+    searchQuery = iphone
+  */
+  useEffect(() => {
     // API CALL
     // make an api call after every key press
     // but if the difference between 2 api calls is less < 200 ms
     // decline the api call
-    const timer = setTimeout(()=>{
-      getSearchResults();
-    },200)
-    return()=>{
-      clearTimeout(timer)
-    }
-  },[searchQuery])
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggesstions(searchCache[searchQuery]);
+      } else {
+        getSearchResults();
+      }
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
   /*
   key - i
   - render the component
@@ -33,38 +48,49 @@ const Head = () => {
 
   setTimeout(200)
 
-  */ 
-  const getSearchResults = async()=>{
+  */
+  const getSearchResults = async () => {
     console.log(searchQuery);
-    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery)
-    const response = await data.json()
+    const query = searchQuery.trim() || "trending";
+    const data = await fetch(YOUTUBE_SEARCH_API + query);
+    const response = await data.json();
     // console.log(response);
-  }
-  const toggleMenuHandler = ()=>{
-    dispatch(toggleMenu())
-  }
+    setSuggesstions(response[1]);
+
+    //update cache 
+    dispatch(
+      cacheResults({
+        [searchQuery]: response[1],
+      })
+    );
+  };
+  const toggleMenuHandler = () => {
+    dispatch(toggleMenu());
+  };
   return (
-    <div className="grid grid-flow-col p-2 m-2 shadow-lg">
-      <div className="flex gap-2 col-span-1">
+    <div className=" fixed top-0 w-full z-20 bg-white grid grid-flow-col p-2  shadow-lg">
+      <div className="flex gap-4 items-center col-span-1">
         <img
           onClick={() => toggleMenuHandler()}
-          className="h-8 cursor-pointer"
+          className="h-6 cursor-pointer"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-cwMeLLj8MfIo3HoXJKFcOFB1g9U4DDMHA&s"
           alt="menu"
         />
         <img
-          className="h-8"
+          className="h-6"
           src="https://upload.wikimedia.org/wikipedia/commons/2/20/YouTube_2024.svg"
           alt="youtube-logo"
         />
       </div>
       {/* <div className="col-span-10 flex items-center"> */}
-      <div className="col-span-10 flex  items-center">
+      <div className="col-span-10 flex relative items-center">
         <input
-          className="w-1/2 rounded-l-full border border-gray-400 p-2"
+          className="w-1/2 px-5 rounded-l-full border border-gray-400 p-2"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setShowSuggesstions(true)}
+          onBlur={() => setShowSuggesstions(false)}
         />
         <button className="border border-gray-400 p-2 rounded-r-full">
           <svg
@@ -82,19 +108,21 @@ const Head = () => {
             />
           </svg>
         </button>
-        <div className="fixed top-[7%] bg-white  py-3 w-[40%] rounded-xl shadow-lg z-10">
-          <ul className="">
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer">Iphone</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone pro</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone max</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 12</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 13</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 14</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 15</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 16</li>
-            <li className="hover:bg-slate-100 px-6 py-0.5 cursor-pointer" >Iphone 16e</li>
-          </ul>
-        </div>
+        {showSuggestions && (
+          <div className="absolute top-11 bg-white  py-3 w-[50%] rounded-xl shadow-lg z-10 border border-gray-200">
+            <ul className="">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="hover:bg-gray-100 border-b border-gray-200  px-6 py-1 cursor-pointer flex items-center gap-2"
+                >
+                  <BsClockHistory />
+                  <span>{suggestion}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {/* </div> */}
       <div className="col-span-1">
