@@ -1,11 +1,13 @@
+import dayjs from "dayjs";
 import React from "react";
-import { Link } from "react-router-dom";
+import relativeTime from "dayjs/plugin/relativeTime";
 
+dayjs.extend(relativeTime);
 const  VideoCard = ({ info }) => {
   console.log(info);
   if(!info) return null
   const { snippet, statistics } = info;
-  const { channelTitle, title, thumbnails } = snippet;
+  const { channelTitle, title, thumbnails, publishedAt } = snippet;
 
   const formatViewCount = (views) => {
     if (views >= 1_000_000) {
@@ -25,14 +27,15 @@ const  VideoCard = ({ info }) => {
         alt="thumbnail"
       />
       <ul>
-        <li className="font-bold py-1 dark:text-neutral-300 text-xl tracking-wide leading-relaxed">
+        <li className="font-semibold py-2 dark:text-neutral-300  leading-relaxed">
           {title}
         </li>
         <li className="dark:text-neutral-300 tracking-wide leading-relaxed">
           {channelTitle}
         </li>
-        <li className="my-0.5 font-mono dark:text-neutral-300">
-          {formatViewCount(statistics?.viewCount)} views{" "}
+        <li className="my-0.5 dark:text-neutral-300 text-gray-600">
+          {formatViewCount(statistics?.viewCount)} ·{" "}
+          <span>{dayjs(publishedAt).fromNow()}</span>
         </li>
       </ul>
     </div>

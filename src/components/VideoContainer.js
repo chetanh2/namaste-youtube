@@ -30,7 +30,7 @@ const VideoContainer = () => {
       {/* <VideoCard info={videos[0]}/> */}
       {videos[0] && <AdVideoCard info={videos[5]} />}
       {videos.map((video) => (
-        <Link className="w-[24%]" to={"/watch?v=" + video.id}>
+        <Link className="w-[25%]" to={"/watch?v=" + video.id}>
           <VideoCard key={video.id} info={video} />
         </Link>
       ))}
