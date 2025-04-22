@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { YOUTUBE_VIDEOS_API } from "../utils/constant";
 import VideoCard, { AdVideoCard } from "./VideoCard";
-import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { closeMenu, openMenu, toggleMenu } from "../utils/appSlice";
+import { Link } from "react-router-dom";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const isMenuOpen = useSelector((state) => state.app.isMenuOpen);
 
   useEffect(() => {
     getVideos();
@@ -21,9 +16,6 @@ const VideoContainer = () => {
     console.log(json.items);
     setVideos(json.items);
   };
-  useEffect(() => {
-    dispatch(openMenu());
-  }, [isMenuOpen, location]);
 
   return (
     <div className="flex flex-wrap mt-2 ">

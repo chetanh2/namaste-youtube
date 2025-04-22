@@ -4,8 +4,10 @@ import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constant";
 import { BsClockHistory } from "react-icons/bs";
 import { cacheResults } from "../utils/searchSlice";
+import { FaBars } from "react-icons/fa";
+import youtubeDarkLogo from "../../src/images/YouTube-White-Full-Color-Dark-Background-Logo.wine.png"
 
-const Head = () => {
+const Head = ({ darkMode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggesstions] = useState([]);
   const [showSuggestions, setShowSuggesstions] = useState(false);
@@ -57,7 +59,7 @@ const Head = () => {
     // console.log(response);
     setSuggesstions(response[1]);
 
-    //update cache 
+    //update cache
     dispatch(
       cacheResults({
         [searchQuery]: response[1],
@@ -68,24 +70,26 @@ const Head = () => {
     dispatch(toggleMenu());
   };
   return (
-    <div className=" fixed top-0 w-full z-20 bg-white grid grid-flow-col p-2  shadow-lg">
-      <div className="flex gap-4 items-center col-span-1">
-        <img
+    <div className=" fixed top-0 w-full z-20 grid grid-flow-col p-2  shadow-lg dark:bg-neutral-900">
+      <div className="flex gap-4 items-center ml-3 col-span-1">
+        <FaBars
           onClick={() => toggleMenuHandler()}
-          className="h-6 cursor-pointer"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-cwMeLLj8MfIo3HoXJKFcOFB1g9U4DDMHA&s"
-          alt="menu"
+          className="text-2xl dark:text-white cursor-pointer"
         />
-        <img
-          className="h-6"
-          src="https://upload.wikimedia.org/wikipedia/commons/2/20/YouTube_2024.svg"
-          alt="youtube-logo"
-        />
+        {darkMode ? (
+          <img className="h-9" src={youtubeDarkLogo} alt="youtube-logo" />
+        ) : (
+          <img
+            className="h-6 "
+            src="https://upload.wikimedia.org/wikipedia/commons/2/20/YouTube_2024.svg"
+            alt="youtube-logo"
+          />
+        )}
       </div>
       {/* <div className="col-span-10 flex items-center"> */}
       <div className="col-span-10 flex relative items-center">
         <input
-          className="w-1/2 px-5 rounded-l-full border border-gray-400 p-2"
+          className="w-1/2 px-5 rounded-l-full border border-gray-400 p-2 dark:bg-neutral-900"
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -99,7 +103,7 @@ const Head = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-6"
+            className="size-6 dark:text-white"
           >
             <path
               strokeLinecap="round"
@@ -127,7 +131,7 @@ const Head = () => {
       {/* </div> */}
       <div className="col-span-1">
         <img
-          className="h-8"
+          className="h-8 dark:text-white"
           src="https://static-00.iconduck.com/assets.00/user-icon-1024x1024-unb6q333.png"
           alt="user"
         />
