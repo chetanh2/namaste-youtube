@@ -19,11 +19,21 @@ const  VideoCard = ({ info }) => {
   
   return (
     <div className="p-2 m-2  cursor-pointer">
-      <img className="rounded-lg w-full hover:scale-95 transition-all duration-300 ease-linear" src={thumbnails?.medium.url} alt="thumbnail" />
+      <img
+        className="rounded-lg w-full hover:scale-95 transition-all duration-300 ease-linear"
+        src={thumbnails?.medium.url}
+        alt="thumbnail"
+      />
       <ul>
-        <li className="font-bold py-1">{title}</li>
-        <li>{channelTitle}</li>
-        <li className="my-0.5">{formatViewCount(statistics?.viewCount)} views </li>
+        <li className="font-bold py-1 dark:text-neutral-300 text-xl tracking-wide leading-relaxed">
+          {title}
+        </li>
+        <li className="dark:text-neutral-300 tracking-wide leading-relaxed">
+          {channelTitle}
+        </li>
+        <li className="my-0.5 font-mono dark:text-neutral-300">
+          {formatViewCount(statistics?.viewCount)} views{" "}
+        </li>
       </ul>
     </div>
   );

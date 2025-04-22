@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
+
+/* Hide scrollbar normally */
+.scrollbar-hover::-webkit-scrollbar {
+    width: 8px;
+    /* background: transparent; */
+    background-color: red;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+/* Show scrollbar on hover */
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    /* light scrollbar */
+}
+
+.scrollbar-hover {
+    scrollbar-width: none;
+    /* Firefox fallback */
+}
+
+.scrollbar-hover:hover {
+    scrollbar-width: thin;
+}
