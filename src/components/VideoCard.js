@@ -20,7 +20,7 @@ const  VideoCard = ({ info }) => {
   };
   
   return (
-    <div className="p-2 m-2  cursor-pointer">
+    <div className="md:p-2 m-2  cursor-pointer">
       <img
         className="rounded-lg w-full hover:scale-95 transition-all duration-300 ease-linear"
         src={thumbnails?.medium.url}
@@ -43,7 +43,7 @@ const  VideoCard = ({ info }) => {
 };
   export const AdVideoCard = ({info}) => {
     return (
-      <div className="border w-[24%] border-red-300">
+      <div className="border  border-red-300">
         {/* <Link className="w-[24%]" to={"/watch?v=" + info.id}> */}
           <VideoCard info={info}/>
         {/* </Link> */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../utils/appSlice";
+import { closeMenu, toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constant";
 import { BsClockHistory } from "react-icons/bs";
 import { cacheResults } from "../utils/searchSlice";
@@ -66,6 +66,9 @@ const Head = ({ darkMode }) => {
       })
     );
   };
+  if (window.innerWidth <= 768) {
+    dispatch(closeMenu());
+  }
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
