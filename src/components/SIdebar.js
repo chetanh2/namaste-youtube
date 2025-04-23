@@ -23,7 +23,7 @@ function Sidebar(){
     // Early return
     if(!isMenuOpen) return false
     return (
-      <div className="p-5 shadow-lg w-[12%] fixed h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-transparent hover:scrollbar-thumb-transparent scrollbar-hover bg-white">
+      <div className="p-5 shadow-lg w-[12%] fixed h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-transparent hover:scrollbar-thumb-transparent scrollbar-hover dark:bg-neutral-900">
         <ul className="space-y-2">
           <NavLink
             to={"/"}
