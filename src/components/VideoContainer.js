@@ -27,7 +27,7 @@ const VideoContainer = () => {
     //     </Link>
     //   ))}
     // </div>
-    <div className="grid grid-cols-1 md:grid-cols-4  mt-2 ">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  mt-2 ">
       {/* <VideoCard info={videos[0]}/> */}
       {videos[0] && <AdVideoCard info={videos[5]} />}
       {videos.map((video) => (

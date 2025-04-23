@@ -41,7 +41,7 @@ const Body = ()=>{
           )}
 
           <div
-            className={`md:col-span-10 col-span-12 p-5 w-full transition-all duration-300 ${
+            className={`lg:col-span-10 col-span-12 p-5 w-full transition-all duration-300 ${
               isMenuOpen ? "ml-[6%] " : ""
             }`}
           >
