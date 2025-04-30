@@ -3,17 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeMenu, toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constant";
 import { BsClockHistory } from "react-icons/bs";
-import { cacheResults } from "../utils/searchSlice";
+import { cacheResults, searchedResults, searchQuery, searchVideo } from "../utils/searchSlice";
 import { FaBars } from "react-icons/fa";
 import youtubeDarkLogo from "../../src/images/YouTube-White-Full-Color-Dark-Background-Logo.wine.png"
+import useVideos from "./utils/useVideos";
 
 const Head = ({ darkMode }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggesstions] = useState([]);
   const [showSuggestions, setShowSuggesstions] = useState(false);
   const dispatch = useDispatch();
+  // Use the useVideos hook at the top level
+  const [ getVideos] = useVideos();
 
   const searchCache = useSelector((store) => store.search);
+  const searchQuery = useSelector((store) => store.search.searchQuery);
   /*
     searchCache = {
       "iphone": ["iphone 11","iphone 14"]
@@ -74,7 +78,14 @@ const Head = ({ darkMode }) => {
     dispatch(toggleMenu());
   };
   console.log("suggestions", suggestions);
-  
+  // Handle clicking a suggestion
+  const handleSuggestionClick = (suggestion) => {
+    // setSearchQuery(suggestion); // Update input value
+    setShowSuggesstions(false); // Hide suggestions
+    dispatch(searchedResults(suggestion));
+    // Trigger the API call to fetch videos
+    getVideos();
+  };
   return (
     <div className=" fixed top-0 w-full z-20 grid grid-flow-col p-2 bg-white  shadow-lg dark:bg-neutral-900">
       <div className="flex gap-4 items-center ml-3 col-span-1">
@@ -98,9 +109,10 @@ const Head = ({ darkMode }) => {
           className="w-1/2 px-5 rounded-l-full border border-gray-400 p-2 dark:bg-neutral-900"
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          // onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => dispatch(searchedResults(e.target.value))}
           onFocus={() => setShowSuggesstions(true)}
-          onBlur={() => setShowSuggesstions(false)}
+          onBlur={() => setTimeout(() => setShowSuggesstions(false), 200)} // Delay to allow click
         />
         <button className="border border-gray-400 p-2 rounded-r-full">
           <svg
@@ -125,6 +137,7 @@ const Head = ({ darkMode }) => {
                 <li
                   key={index}
                   className="hover:bg-gray-100 border-b border-gray-200  px-6 py-1 cursor-pointer flex items-center gap-2"
+                  onClick={() => handleSuggestionClick(suggestion)} // Use onMouseDown to capture before blur
                 >
                   <BsClockHistory />
                   <span>{suggestion}</span>
